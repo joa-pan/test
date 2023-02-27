@@ -1,14 +1,22 @@
-name: auto-add-issues
+name: Auto Assign to Project(s)
+
 on:
   issues:
-    types: 
-      - opened
+    types: [opened, labeled]
+  pull_request:
+    types: [opened, labeled]
+  issue_comment:
+    types: [created]
+env:
+  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
 jobs:
-  add-to-project:
-    name: add issue to project
+  assign_one_project:
     runs-on: ubuntu-latest
+    name: Assign to One Project
     steps:
-      - uses: actions/add-to-project@v0.4.0
-        with:
-          project-url: https://github.com/users/joa-pan/projects/1
-          github-token: ${{ secrets.GITHUB_TOKEN }}
+    - name: Assign NEW issues and NEW pull requests to project 2
+      uses: srggrs/assign-one-project-github-action@1.2.1
+      if: github.event.action == 'opened'
+      with:
+        project: 'https://github.com/users/joa-pan/projects/1'
