@@ -1,0 +1,14 @@
+name: auto-add-issues
+on:
+  issues:
+    types: 
+      - opened
+jobs:
+  add-to-project:
+    name: add issue to project
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/add-to-project@v0.4.0
+        with:
+          project-url: https://github.com/users/joa-pan/projects/1
+          github-token: ${{ secrets.GITHUB_TOKEN }}
